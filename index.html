@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>老公抽抽樂</title>
+    <style>
+        /* 網頁外觀：背景白色，文字黑色 */
+        body {
+            background-color: #ffffff;
+            color: #000000;
+            font-family: "Microsoft JhengHei", Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        /* 按鈕樣式 */
+        .draw-btn {
+            padding: 12px 24px;
+            font-size: 18px;
+            font-weight: bold;
+            background-color: #000000;
+            color: #ffffff;
+            border: 2px solid #000000;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+        }
+
+        /* 按鈕懸浮效果 */
+        .draw-btn:hover {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        /* 圖片顯示區域 */
+        .image-container {
+            width: 100%;
+            max-width: 500px;
+            height: 400px;
+            border: 2px dashed #cccccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            display: none; /* 預設先隱藏圖片 */
+        }
+
+        /* 老公名字顯示樣式 */
+        .partner-name {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 10px;
+            min-height: 36px; /* 固定高度防止畫面跳動 */
+        }
+
+        .placeholder-text {
+            color: #888888;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>老公抽抽樂</h1>
+
+    <button class="draw-btn" onclick="drawPartner()">來點新鮮的</button>
+
+    <div class="image-container">
+        <div id="placeholder" class="placeholder-text">按下按鈕開始抽獎！</div>
+        <img id="partner-img" src="" alt="老公照片">
+    </div>
+
+    <div id="name-display" class="partner-name"></div>
+
+    <script>
+        // 【請在這裡修改你的圖片檔名清單】
+        // 請把你複製過來的老公照片檔名放在這裡
+        const images = [
+"86-不存在的戰區 辛耶 諾讚.jpg",
+"小正太.jpg",
+"工藤新一.jpg",
+"孔劉.jpg",
+"立法院長韓國瑜.jpg",
+"安孝燮.jpg",
+"安室透.jpg",
+"江戶川柯南.jpg",
+"李宰旭.jpg",
+"李敏鎬.jpg",
+"赤井秀一.jpg",
+"車銀優.jpg",
+"車銀優.jpg",
+"周杰倫.jpg",
+"咒術迴戰 五條悟.jpg",
+"怪盜基德.jpg",
+"服部平次.jpg",
+"松田陣平.webp",
+"阿神.jpg",
+"阿滴.jpg",
+"徐源璟.jpg",
+"時代少年團 丁程鑫.PNG",
+"時代少年團 宋亞軒.PNG",
+"時代少年團 馬嘉祺.PNG",
+"時代少年團 張真源.PNG",
+"時代少年團 賀峻霖.PNG",
+"時代少年團 劉耀文.PNG",
+"時代少年團 嚴浩翔.PNG",
+"高雄市長 陳其邁.jpg",
+"張育成.jpg",
+"陳傑憲.jpg",
+"富岡義勇.jpg",
+"尊.jpg",
+"進擊的巨人 里維·阿卡曼.jpg",
+"黃大謙.jpg",
+"黃氏兄弟 瑋瑋.jpg",
+"煉獄杏壽郎.jpg",
+"蔣萬安.jpg",
+"賴清德總統.jpg",
+"邊佑錫.jpg",
+"ALD1 李相沅.jpg",
+"ALLDAY PROJECT 趙旴燦.jpg",
+"BTS 田柾國.jpg",
+"BTS J-Hope.png",
+"BTS Jimin.jpg",
+"BTS金泰亨.webp",
+"ENHYPEN 朴成訓 .jpg",
+"Heart2Heart ian歐巴.jpg",
+"ILLIT 沅禧歐巴.jpg",
+"Joeman.jpg",
+"Seventeen 李碩珉.jpg",
+"Seventeen 金珉奎.jpg",
+"Stray Kids 方燦.jpg",
+"Stray Kids 李龍馥.jpg",
+"TWS 金道勳.jpg",
+"TXT休寧凱.jpg",
+"TXT崔杋圭.jpg",
+"TXT崔秀彬.jpg",
+"TXT崔然竣.jpg",
+"戀與深空 夏以晝.jpg",
+"Never gonna make you cry ~ Never gonna say goodbye~.jpg",
+"Never gonna give you up ~ Never gonna let you down~.jpg",
+"Super Junior 圭賢.jpg",
+"CORTIS  金主訓.jpg",
+"CORTIS 安乾鎬.jpg",
+"CORTIS 馬丁.jpg",
+"CORTIS 趙雨凡.jpg",
+"CORTIS 嚴成玹.jpg",
+      
+        ];
+
+        function drawPartner() {
+            if (images.length === 0 || images[0] === "孔劉.jpg") {
+                alert("請記得先用文字編輯修改程式碼中的 images 清單，換成你資料夾裡的照片名稱喔！");
+                return;
+            }
+
+            // 隨機取得陣列中的一個圖片檔名
+            const randomIndex = Math.floor(Math.random() * images.length);
+            const selectedImage = images[randomIndex];
+
+            // 取得網頁上的元素
+            const imgElement = document.getElementById('partner-img');
+            const placeholderElement = document.getElementById('placeholder');
+            const nameElement = document.getElementById('name-display');
+
+            // 隱藏預設文字，顯示圖片並替換路徑
+            placeholderElement.style.display = 'none';
+            imgElement.src = selectedImage;
+            imgElement.style.display = 'block';
+
+            // 自動切掉結尾的 .jpg 或 .png 或 .webp，只顯示名字
+            const cleanName = selectedImage.replace(/\.(jpg|jpeg|png|webp)$/i, '');
+            nameElement.textContent = cleanName;
+        }
+    </script>
+
+</body>
+</html>
